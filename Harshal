@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ItihaasVerse Studio</title>
+<style>
+body {
+  margin: 0;
+  background: #292824;
+  color: #F3EBDD;
+  font-family: Georgia, serif;
+  padding: 25px;
+}
+header {
+  text-align: center;
+  padding: 30px 10px;
+  background: #391B25;
+  border-radius: 15px;
+}
+h1 { color: #C39A55; }
+.card {
+  background: #123E40;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+}
+label {
+  display: block;
+  margin: 15px 0 8px;
+}
+input, textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 8px;
+}
+button {
+  background: #C39A55;
+  color: #292824;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ITIHAASVERSE</h1>
+  <p>Rediscovering India's timeless stories.</p>
+  <p>STORIES • HISTORY • HERITAGE</p>
+</header>
+
+<div class="card">
+  <h2>Video Studio</h2>
+  <label>Upload narration (MP3/WAV)</label>
+  <input type="file" accept="audio/*" id="audio">
+
+  <label>Upload scene images</label>
+  <input type="file" accept="image/*" multiple id="images">
+
+  <label>Enter your Hindi script</label>
+  <textarea id="script" rows="6"
+  placeholder="अपनी कहानी यहाँ लिखें..."></textarea>
+
+  <label>Enter English subtitles</label>
+  <textarea id="subs" rows="4"
+  placeholder="Enter English subtitles here..."></textarea>
+
+  <button onclick="alert('Your first studio interface is ready!')">
+    Start Creating
+  </button>
+</div>
+
+</body>
+</html>
