@@ -1,70 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ItihaasVerse Studio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ItihaasVerse Studio V2</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#171c1d;color:#f5ead8;
- font-family:Arial,sans-serif;padding:16px
-}
-header{
- text-align:center;background:#391b25;
- padding:25px 10px;border-radius:14px;
- border:1px solid #bd9656
-}
-h1{color:#d5ae69;letter-spacing:3px}
-header p{color:#e4d5bd}
-.card{
- background:#203c3b;padding:17px;
- border-radius:12px;margin-top:16px
-}
-h2{color:#e1b96f}
-label{display:block;margin:14px 0 7px}
-input,textarea{
- width:100%;padding:12px;border-radius:7px;
- border:1px solid #b79b70;background:#f5ead8;
- color:#222;font-size:15px
-}
-textarea{resize:vertical}
-button{
- background:#c59c59;color:#211b15;
- border:0;border-radius:7px;
- padding:11px 15px;margin:7px 4px 0 0;
- font-weight:bold
-}
-button:disabled{opacity:.4}
-#stage{
- width:min(100%,360px);aspect-ratio:9/16;
- margin:15px auto;background:#101515;
- border:2px solid #c59c59;
- border-radius:8px;position:relative;
- overflow:hidden;display:flex;
- align-items:center;justify-content:center
-}
-#scene{
- width:100%;height:100%;object-fit:cover;
- display:none
-}
-#caption{
- position:absolute;bottom:35px;
- left:8px;right:8px;text-align:center;
- background:#101515bb;color:white;
- padding:12px;font-size:18px;
- line-height:1.5
-}
-#thumbs{
- display:flex;gap:9px;overflow-x:auto;
- margin-top:12px
-}
-#thumbs img{
- width:85px;height:120px;
- object-fit:cover;border:2px solid #c59c59;
- border-radius:5px
-}
-.small{color:#d6c5a9;font-size:13px}
+body{margin:0;padding:15px;background:#171c1d;color:#f5ead8;font-family:Arial,sans-serif}
+header{text-align:center;background:#391b25;padding:22px;border:1px solid #bd9656;border-radius:14px}
+h1,h2{color:#d5ae69}
+.card{background:#203c3b;padding:16px;margin-top:16px;border-radius:12px}
+label{display:block;margin:12px 0 6px}
+input,textarea{width:100%;padding:11px;border-radius:7px;border:1px solid #bd9656;background:#f5ead8;color:#222}
+button{padding:11px 15px;margin:5px 3px 5px 0;background:#c59c59;color:#211b15;border:0;border-radius:7px;font-weight:bold}
+.small{font-size:13px;color:#d6c5a9}
+#stage{width:min(100%,360px);aspect-ratio:9/16;background:#101515;margin:15px auto;position:relative;border:2px solid #c59c59;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#scene{width:100%;height:100%;object-fit:cover;display:none}
+#caption{position:absolute;bottom:30px;left:8px;right:8px;background:#101515d9;color:white;text-align:center;padding:12px;font-size:18px;line-height:1.5}
+.sceneCard{background:#172c2b;padding:12px;margin-top:12px;border:1px solid #8e784e;border-radius:8px}
+.sceneCard img{width:65px;height:85px;object-fit:cover;float:right}
+.sceneCard input{margin-bottom:8px}
+#timeline{display:flex;gap:7px;overflow-x:auto;padding:8px 0}
+.clip{min-width:75px;padding:12px;background:#59432c;color:white;border-radius:6px;text-align:center;font-size:12px}
+.clip.active{outline:3px solid #e5bd6b}
 </style>
 </head>
 <body>
@@ -72,133 +31,223 @@ button:disabled{opacity:.4}
 <header>
 <h1>ITIHAASVERSE</h1>
 <p>History • Heritage • Stories</p>
-<p>YOUR CREATIVE VIDEO STUDIO</p>
+<p>SMART VIDEO STUDIO V2</p>
 </header>
 
 <div class="card">
 <h2>01. Narration</h2>
-<label>Upload voice recording</label>
 <input type="file" id="audioFile" accept="audio/*">
-<audio id="audio" controls style="width:100%;margin-top:15px"></audio>
+<audio id="audio" controls style="width:100%;margin-top:12px"></audio>
 </div>
 
 <div class="card">
-<h2>02. Scene Images</h2>
-<label>Upload multiple images</label>
+<h2>02. Import Images</h2>
 <input type="file" id="imageFiles" accept="image/*" multiple>
-<div id="thumbs"></div>
-<p class="small" id="imageCount">No images uploaded yet.</p>
-<button id="prev">Previous scene</button>
-<button id="next">Next scene</button>
+<p class="small" id="imageCount">No images uploaded.</p>
 </div>
 
 <div class="card">
-<h2>03. Your Story</h2>
-<label>Hindi script</label>
-<textarea id="script" rows="5"
-placeholder="अपनी कहानी यहाँ लिखें..."></textarea>
-
-<label>English subtitles</label>
-<textarea id="subtitle" rows="3"
-placeholder="Enter your English subtitles..."></textarea>
-
-<button id="showText">Update preview text</button>
+<h2>03. Scene Timeline</h2>
+<p class="small">Set image duration and subtitles separately for each scene.</p>
+<div id="sceneList"></div>
+<div id="timeline"></div>
+<p id="totalTime" class="small">Total duration: 0 seconds</p>
 </div>
 
 <div class="card">
-<h2>04. Video Preview</h2>
-<p class="small">Vertical video format • 9:16</p>
+<h2>04. Story Notes</h2>
+<textarea id="script" rows="4" placeholder="अपनी हिंदी कहानी यहाँ लिखें..."></textarea>
+</div>
 
+<div class="card">
+<h2>05. Video Preview</h2>
+<p class="small">Vertical format • 9:16</p>
 <div id="stage">
-<img id="scene" alt="Selected scene">
+<img id="scene" alt="Current scene">
 <div id="caption">Your subtitles appear here</div>
 </div>
-
-<p class="small" id="sceneNumber">Scene 0</p>
+<p id="sceneNumber" class="small">No scene selected</p>
+<button id="play">Play Full Preview</button>
+<button id="pause">Pause</button>
+<button id="reset">Restart</button>
+<p class="small">Images change automatically according to their duration while narration plays.</p>
 </div>
 
-<footer style="text-align:center;padding:25px;color:#c59c59">
+<footer style="text-align:center;padding:22px;color:#c59c59">
 ITIHAASVERSE STUDIO © 2026
 </footer>
 
 <script>
-const audioFile=document.getElementById('audioFile');
 const audio=document.getElementById('audio');
+const audioFile=document.getElementById('audioFile');
 const imageFiles=document.getElementById('imageFiles');
+const sceneList=document.getElementById('sceneList');
+const timeline=document.getElementById('timeline');
 const scene=document.getElementById('scene');
-const thumbs=document.getElementById('thumbs');
 const caption=document.getElementById('caption');
 const sceneNumber=document.getElementById('sceneNumber');
 
-let images=[];
-let current=0;
+let scenes=[];
+let current=-1;
 
-audioFile.addEventListener('change',()=>{
+audioFile.onchange=()=>{
  const file=audioFile.files[0];
- if(file){
-  audio.src=URL.createObjectURL(file);
- }
-});
+ if(file) audio.src=URL.createObjectURL(file);
+};
 
-imageFiles.addEventListener('change',()=>{
- images.forEach(item=>URL.revokeObjectURL(item.url));
- images=[];
- thumbs.innerHTML='';
- current=0;
-
- Array.from(imageFiles.files).forEach(file=>{
-  if(!file.type.startsWith('image/'))return;
-  const url=URL.createObjectURL(file);
-  images.push({url,name:file.name});
-
-  const thumb=document.createElement('img');
-  thumb.src=url;
-  thumb.alt=file.name;
-  thumb.addEventListener('click',()=>{
-   current=images.findIndex(item=>item.url===url);
-   updateScene();
-  });
-  thumbs.appendChild(thumb);
- });
-
- updateScene();
+imageFiles.onchange=()=>{
+ scenes.forEach(s=>URL.revokeObjectURL(s.url));
+ scenes=Array.from(imageFiles.files)
+ .filter(f=>f.type.startsWith('image/'))
+ .map(f=>({
+  url:URL.createObjectURL(f),
+  name:f.name,
+  duration:5,
+  subtitle:''
+ }));
  document.getElementById('imageCount').textContent=
- images.length+' images uploaded.';
-});
+ scenes.length+' images uploaded';
+ renderEditor();
+ showScene(0);
+};
 
-function updateScene(){
- if(!images.length){
-  scene.style.display='none';
-  scene.removeAttribute('src');
-  sceneNumber.textContent='Scene 0';
-  return;
- }
-
- scene.src=images[current].url;
- scene.style.display='block';
- sceneNumber.textContent=
- 'Scene '+(current+1)+' of '+images.length;
+function totalDuration(){
+ return scenes.reduce((sum,s)=>sum+s.duration,0);
 }
 
-document.getElementById('prev').onclick=()=>{
- if(images.length){
-  current=(current-1+images.length)%images.length;
-  updateScene();
+function renderEditor(){
+ sceneList.innerHTML='';
+ timeline.innerHTML='';
+
+ scenes.forEach((s,i)=>{
+  const card=document.createElement('div');
+  card.className='sceneCard';
+
+  const heading=document.createElement('h3');
+  heading.textContent='Scene '+(i+1);
+  card.appendChild(heading);
+
+  const thumb=document.createElement('img');
+  thumb.src=s.url;
+  thumb.alt=s.name;
+  card.appendChild(thumb);
+
+  const name=document.createElement('p');
+  name.className='small';
+  name.textContent=s.name;
+  card.appendChild(name);
+
+  const durationLabel=document.createElement('label');
+  durationLabel.textContent='Duration (seconds)';
+  card.appendChild(durationLabel);
+
+  const duration=document.createElement('input');
+  duration.type='number';
+  duration.min='1';
+  duration.max='300';
+  duration.step='1';
+  duration.value=s.duration;
+  duration.onchange=()=>{
+   s.duration=Math.max(1,Math.min(300,Number(duration.value)||5));
+   duration.value=s.duration;
+   renderEditor();
+   updateAtTime(audio.currentTime);
+  };
+  card.appendChild(duration);
+
+  const subtitleLabel=document.createElement('label');
+  subtitleLabel.textContent='Scene subtitle';
+  card.appendChild(subtitleLabel);
+
+  const sub=document.createElement('textarea');
+  sub.rows=2;
+  sub.placeholder='Enter subtitle for this scene';
+  sub.value=s.subtitle;
+  sub.oninput=()=>{
+   s.subtitle=sub.value;
+   if(current===i) caption.textContent=s.subtitle||' ';
+  };
+  card.appendChild(sub);
+
+  const select=document.createElement('button');
+  select.textContent='Preview scene';
+  select.onclick=()=>showScene(i);
+  card.appendChild(select);
+
+  sceneList.appendChild(card);
+
+  const clip=document.createElement('div');
+  clip.className='clip';
+  clip.id='clip'+i;
+  clip.textContent='Scene '+(i+1)+' • '+s.duration+'s';
+  clip.onclick=()=>showScene(i);
+  timeline.appendChild(clip);
+ });
+
+ document.getElementById('totalTime').textContent=
+ 'Total duration: '+totalDuration()+' seconds';
+ updateTimeline();
+}
+
+function showScene(i){
+ if(i<0||i>=scenes.length)return;
+ current=i;
+ scene.src=scenes[i].url;
+ scene.style.display='block';
+ caption.textContent=scenes[i].subtitle||' ';
+ sceneNumber.textContent='Scene '+(i+1)+' of '+scenes.length;
+ updateTimeline();
+}
+
+function updateTimeline(){
+ scenes.forEach((s,i)=>{
+  const clip=document.getElementById('clip'+i);
+  if(clip){
+   clip.classList.toggle('active',i===current);
+   clip.textContent='Scene '+(i+1)+' • '+s.duration+'s';
+  }
+ });
+}
+
+function updateAtTime(time){
+ if(!scenes.length)return;
+ let elapsed=0;
+ for(let i=0;i<scenes.length;i++){
+  if(time<elapsed+scenes[i].duration){
+   if(current!==i)showScene(i);
+   return;
+  }
+  elapsed+=scenes[i].duration;
  }
+ showScene(scenes.length-1);
+}
+
+audio.addEventListener('timeupdate',()=>{
+ updateAtTime(audio.currentTime);
+});
+
+document.getElementById('play').onclick=async()=>{
+ if(!audio.src){
+  alert('Please upload your narration first.');
+  return;
+ }
+ if(!scenes.length){
+  alert('Please upload scene images first.');
+  return;
+ }
+ audio.currentTime=0;
+ updateAtTime(0);
+ try{await audio.play();}
+ catch(e){alert('Unable to play audio. Please check your file.');}
 };
 
-document.getElementById('next').onclick=()=>{
- if(images.length){
-  current=(current+1)%images.length;
-  updateScene();
- }
-};
+document.getElementById('pause').onclick=()=>audio.pause();
 
-document.getElementById('showText').onclick=()=>{
- const text=document.getElementById('subtitle').value.trim();
- caption.textContent=text||'Your subtitles appear here';
+document.getElementById('reset').onclick=()=>{
+ audio.pause();
+ audio.currentTime=0;
+ updateAtTime(0);
 };
 </script>
-
 </body>
 </html>
